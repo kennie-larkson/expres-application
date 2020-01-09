@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Express Selfie App</title>
     <style>
-        button{ outline:none; border: blue; padding: 5px 5px; border-radius: 10px; font-size: 16px;}
-        button :hover{ border: 2px solid blue;}
+        /* button{ outline:none; border: blue; padding: 5px 5px; border-radius: 10px; font-size: 16px;}
+        button :hover{ border: 2px solid blue;} */
     </style>
 </head>
 <body>
@@ -20,7 +20,7 @@
         Timestamp :<span id="time"></span><br>
         Accuracy :<span id="acc"></span>
     </p>
-    <button type="button">Submit</button>
+    <button type="button" id="button">Submit</button>
     
     
     
@@ -32,28 +32,40 @@
             console.log('Geolocation is supported by your browser') ;
             // alert('Retrieveing your location. Please wait!');
             navigator.geolocation.getCurrentPosition( async position =>{ console.log(position);
+
+                //select certain elements from the position object returned
                 const{coords,timestamp} = position;
                 
                 let lat = coords.latitude;
                 let lon = coords.longitude;
                 let time = timestamp;
                 let accurate = coords.accuracy;
+
+                //display the selected elements in the DOM
                 document.getElementById('lat').textContent =lat.toFixed(2);
                 document.getElementById('lon').textContent =lon.toFixed(2);
                 document.getElementById('time').textContent =time;
                 document.getElementById('acc').textContent =accurate;
 
+
+                //save these selected elements as a single object (data)
                 const data = {lat, lon, time, accurate};
 
+                //preparing the contents to be sent to the api end point as a single object (options)
                 const options = {
+                    //the client request method is POST
                     method : 'POST',
-                    
+                    //the  content-type being sent to the api endpoint is application/json
                     headers : { 'Content-Type' : 'application/json'},
-
+                    //the body contents being sent to the api 
                     body : JSON.stringify(data)
                 };
+                //use fetch method to post the contents to the api endpoint ('/api')
                 const response = await fetch('/api', options);
+
+                //getting the response/acknowlegement from the server(server being polite)
                 const respData = await response.json();
+                //let's see the server's message
                 console.log(respData);
                 
 
