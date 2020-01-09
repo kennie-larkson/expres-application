@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Express Selfie App</title>
+    <style>
+        button{ outline:none; border: blue; padding: 5px 5px; border-radius: 10px; font-size: 16px;}
+        button :hover{ border: 2px solid blue;}
+    </style>
+</head>
+<body>
+    <h1 id="header">Express Selfie Application</h1>
+
+    <!--<p id="para">Hello!</p>
+    <a id="link" href="#">Goodbye</a>-->
+    <p>Latitude :<span id="lat"></span> &deg;<br>
+        Longitude :<span id="lon"></span> &deg;<br>
+        Timestamp :<span id="time"></span><br>
+        Accuracy :<span id="acc"></span>
+    </p>
+    <button type="button">Submit</button>
+    
+    
+    
+
+    <script>
+        if(!navigator.geolocation){
+            console.log('Geolocation is not supported by your browser') ;
+        }else{
+            console.log('Geolocation is supported by your browser') ;
+            // alert('Retrieveing your location. Please wait!');
+            navigator.geolocation.getCurrentPosition( async position =>{ console.log(position);
+                const{coords,timestamp} = position;
+                
+                let lat = coords.latitude;
+                let lon = coords.longitude;
+                let time = timestamp;
+                let accurate = coords.accuracy;
+                document.getElementById('lat').textContent =lat.toFixed(2);
+                document.getElementById('lon').textContent =lon.toFixed(2);
+                document.getElementById('time').textContent =time;
+                document.getElementById('acc').textContent =accurate;
+
+                const data = {lat, lon, time, accurate};
+
+                const options = {
+                    method : 'POST',
+                    
+                    headers : { 'Content-Type' : 'application/json'},
+
+                    body : JSON.stringify(data)
+                };
+                const response = await fetch('/api', options);
+                const respData = await response.json();
+                console.log(respData);
+                
+
+            })
+
+        }
+
+        // document.getElementById('link').addEventListener('click',()=>{
+        //     document.getElementById('para').textContent = 'Goodbye!';
+        // });
+
+    </script>
+</body>
+</html>
