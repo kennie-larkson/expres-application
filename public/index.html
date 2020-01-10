@@ -18,8 +18,8 @@
     <strong>
         <p>Latitude : <span id="lat"></span> &deg;<br>
             Longitude : <span id="lon"></span> &deg;<br>
-            Timestamp : <span id="time"></span><br>
-            Accuracy : <span id="acc"></span>
+            <!--Timestamp : <span id="time"></span><br>
+            Accuracy : <span id="acc"></span>-->
         </p>
     </strong>
     
@@ -34,7 +34,8 @@
         }else{
             console.log('Geolocation is supported by your browser') ;
             // alert('Retrieveing your location. Please wait!');
-            navigator.geolocation.getCurrentPosition( async position =>{ console.log(position);
+            navigator.geolocation.getCurrentPosition(  position =>{ console.log(position);
+                console.log('saving to database...');
 
                 //select certain elements from the position object returned
                 const{coords} = position;
@@ -64,25 +65,45 @@
                     //the body contents being sent to the api 
                     body : JSON.stringify(data)
                 };
+
                 //use fetch method to send the contents to the api endpoint ('/api')
                 //this will get to the api in form of a request
-                const response = await fetch('/api', options);
 
-                //getting the response/acknowlegement from the server(server being polite)
-                const respData = await response.json();
-                //let's see the server's message
-                console.log(respData);
+                const  sendToServer = async ()=>{
+
+                    const response = await fetch('/api', options);
+
+                    //getting the response/acknowlegement from the server(server being polite)
+                    const respData = await response.json();
+                    //let's see the server's message
+                    console.log(respData);
+                    console.log('Data successfully saved to database');
+
+                }
+
+                document.getElementById('button').addEventListener('click',sendToServer);
+                
+
+
+
+
+                // const response = await fetch('/api', options);
+
+                // //getting the response/acknowlegement from the server(server being polite)
+                // const respData = await response.json();
+                // //let's see the server's message
+                // console.log(respData);
                 
 
             })
+            
 
             // const saveData = [];
 
         }
 
-        // document.getElementById('button').addEventListener('click',()=>{
-        //     saveData.push[data];
-        // });
+        
+        
 
     </script>
 </body>
