@@ -15,13 +15,14 @@
     "node",
     "server"
   ],
-  "author": "Lawal, Abdulrafiu Kehinde (JavaScript Student)",
+  "author": "Lawal, Abdulrafiu Kehinde (@kennie_larkson)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/kennie-larkson/expres-application/issues"
   },
   "homepage": "https://github.com/kennie-larkson/expres-application#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "nedb": "^1.8.0"
   }
 }

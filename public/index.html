@@ -15,11 +15,14 @@
 
     <!--<p id="para">Hello!</p>
     <a id="link" href="#">Goodbye</a>-->
-    <p>Latitude :<span id="lat"></span> &deg;<br>
-        Longitude :<span id="lon"></span> &deg;<br>
-        Timestamp :<span id="time"></span><br>
-        Accuracy :<span id="acc"></span>
-    </p>
+    <strong>
+        <p>Latitude : <span id="lat"></span> &deg;<br>
+            Longitude : <span id="lon"></span> &deg;<br>
+            Timestamp : <span id="time"></span><br>
+            Accuracy : <span id="acc"></span>
+        </p>
+    </strong>
+    
     <button type="button" id="button">Submit</button>
     
     
@@ -34,22 +37,23 @@
             navigator.geolocation.getCurrentPosition( async position =>{ console.log(position);
 
                 //select certain elements from the position object returned
-                const{coords,timestamp} = position;
+                const{coords} = position;
                 
                 let lat = coords.latitude;
                 let lon = coords.longitude;
-                let time = timestamp;
-                let accurate = coords.accuracy;
+                // let accurate = coords.accuracy;
+                // let time = timestamp;
+                
 
                 //display the selected elements in the DOM
                 document.getElementById('lat').textContent =lat.toFixed(2);
                 document.getElementById('lon').textContent =lon.toFixed(2);
-                document.getElementById('time').textContent =time;
-                document.getElementById('acc').textContent =accurate;
+                // document.getElementById('time').textContent =time;
+                // document.getElementById('acc').textContent =accurate;
 
 
                 //save these selected elements as a single object (data)
-                const data = {lat, lon, time, accurate};
+                const data = {lat, lon};
 
                 //preparing the contents to be sent to the api end point as a single object (options)
                 const options = {
@@ -60,7 +64,8 @@
                     //the body contents being sent to the api 
                     body : JSON.stringify(data)
                 };
-                //use fetch method to post the contents to the api endpoint ('/api')
+                //use fetch method to send the contents to the api endpoint ('/api')
+                //this will get to the api in form of a request
                 const response = await fetch('/api', options);
 
                 //getting the response/acknowlegement from the server(server being polite)
@@ -71,10 +76,12 @@
 
             })
 
+            // const saveData = [];
+
         }
 
-        // document.getElementById('link').addEventListener('click',()=>{
-        //     document.getElementById('para').textContent = 'Goodbye!';
+        // document.getElementById('button').addEventListener('click',()=>{
+        //     saveData.push[data];
         // });
 
     </script>
