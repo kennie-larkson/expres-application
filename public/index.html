@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.min.js" integrity="sha256-8IAwtdm0tRSYpMA1G5K1jpeHZq1N02yrdpoBteVVuMc=" crossorigin="anonymous"></script>
+    
     <title>Express Selfie App</title>
     <style>
+        body{background: orangered;}
         /* button{ outline:none; border: blue; padding: 5px 5px; border-radius: 10px; font-size: 16px;}
         button :hover{ border: 2px solid blue;} */
     </style>
@@ -18,22 +21,32 @@
         </p>
         <p >
             Mood: <input type="text" name="" id="mood">
+            <button type="button" id="button">Submit</button>
         </p>
     </strong>
-
-    <button type="button" id="mood_btn">Mood</button>
     
-    <button type="button" id="button">Submit</button>
-    <p id="page-link"><a href="dbdata.html"><strong>View your profile page</strong></a></p>
+   
+    <p id="page-link"><a href="#"><strong>Home Page</strong></a> | <a href="dbdata.html"><strong>List Page</strong></a></p>
 
     
     
     
 
     <script>
-        if(!navigator.geolocation){
+
+
+function setup(){
+
+    if(!navigator.geolocation){
             console.log('Geolocation is not supported by your browser') ;
         }else{
+
+            noCanvas(0);
+            const video = createCapture(VIDEO);
+            video.size(320,240);
+
+
+
             console.log('Geolocation is supported by your browser') ;
             // alert('Retrieveing your location. Please wait!');
             navigator.geolocation.getCurrentPosition(  position =>{ console.log(position);
@@ -49,8 +62,10 @@
                 const  sendToServer = async ()=>{
 
                     mood = document.getElementById('mood').value;
-                let moodType = mood;
-                    const data = {lat, lon, moodType};
+                    let moodType = mood;
+                    video.loadPixels();
+                    const image64 = video.canvas.toDataURL();
+                    const data = {lat, lon, moodType, image64}
                     const options = {
                         method : 'POST',
                         headers : { 'Content-Type' : 'application/json'},
@@ -71,6 +86,9 @@
             })
            
         }
+    
+}
+        
 
     </script>
 </body>
