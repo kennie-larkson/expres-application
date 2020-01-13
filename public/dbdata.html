@@ -18,6 +18,7 @@
 
             for(item of data){
                 const root = document.createElement('div');
+                const para = document.createElement('p');
                 const mood = document.createElement('div');
                 const geo = document.createElement('div');
                 const date = document.createElement('div');
@@ -27,7 +28,9 @@
                 const dateString = new Date(item.timestamp).toLocaleString();
                 date.textContent = dateString;
 
-                root.append(mood,geo,date);
+                para.append(mood, geo, date);
+                root.append(para);
+                // root.append(mood,geo,date);
                 document.body.append(root);
 
             }
